@@ -1,9 +1,8 @@
 package com.techproed.javadevapi01;
 
 import static io.restassured.RestAssured.given;
-import static org.junit.Assert.assertTrue;
+import static org.hamcrest.Matchers.equalTo;
 
-import org.hamcrest.Matchers;
 import org.junit.Test;
 
 import io.restassured.http.ContentType;
@@ -39,11 +38,17 @@ public class GetRequest05 extends TestBaseJsonPlaceHolder{
 		response.prettyPrint();
 
 		//Assertions
-		response.then().assertThat().statusCode(200).header("Server", "cloudflare").
-		contentType(ContentType.JSON).body("completed", Matchers.equalTo(false));//,"userId", Matchers.hasItems(7));
+		response.then().
+		assertThat().
+		statusCode(200)./// must 
+		header("Server", "cloudflare").
+		contentType(ContentType.JSON).
+		body("completed", equalTo(false),
+				"userId", equalTo(7),
+				"title", equalTo("esse et quis iste est earum aut impedit"));
 
-		assertTrue(response.asString().contains("esse et quis iste est earum aut impedit"));
-		assertTrue(response.asString().contains("7"));
+		//assertTrue(response.asString().contains("esse et quis iste est earum aut impedit"));
+		//assertTrue(response.asString().contains("7"));
 
 
 
